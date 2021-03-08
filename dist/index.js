@@ -218,7 +218,7 @@ async function downloadAndSetup(url) {
 
     // Make the download executable
     if (!os.platform().startsWith('win')) {
-        await fs.chmodSync(cliPath, 'u+x')
+        await fs.chmodSync(cliPath, '766')
     }
 
     const dir = path.dirname(cliPath)
