@@ -2,7 +2,15 @@ const core = require('@actions/core');
 const tc = require('@actions/tool-cache');
 const os = require('os');
 
-try {
+(async () => {
+    try {
+        await setup();
+    } catch (error) {
+        core.setFailed(error.message);
+    }
+})();
+
+async function setup() {
     // Gets the version, if available
     let version = core.getInput('version');
     // TODO If the version is not provided, computes the latest
@@ -23,15 +31,17 @@ try {
     console.log(`Downloading CLI from ${url}`);
 
     // Downloading
-    const cliPath = tc.downloadTool(url);
+    await downloadAndSetup(url)
+}
+
+async function downloadAndSetup(url) {
+    const cliPath = await tc.downloadTool(url);
     console.log(`Downloaded at ${cliPath}`)
-} catch (error) {
-    core.setFailed(error.message);
 }
 
 // arch in [arm, x32, x64...] (https://nodejs.org/api/os.html#os_os_arch)
 // return value in [amd64, 386, arm]
-function mapArch (arch) {
+function mapArch(arch) {
     const mappings = {
         x32: '386',
         x64: 'amd64'
@@ -41,7 +51,7 @@ function mapArch (arch) {
 
 // os in [darwin, linux, win32...] (https://nodejs.org/api/os.html#os_os_platform)
 // return value in [darwin, linux, windows]
-function mapOS (os) {
+function mapOS(os) {
     const mappings = {
         win32: 'windows'
     };
