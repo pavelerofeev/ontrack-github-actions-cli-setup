@@ -1,0 +1,24 @@
+{
+  "name": "ontrack-github-actions-cli-setup",
+  "version": "1.0.0",
+  "description": "GitHub action to setup the Ontrack CLI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nemerosa/ontrack-github-actions-cli-setup.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nemerosa/ontrack-github-actions-cli-setup/issues"
+  },
+  "homepage": "https://github.com/nemerosa/ontrack-github-actions-cli-setup#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0"
+  }
+}

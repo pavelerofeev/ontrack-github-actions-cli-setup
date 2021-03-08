@@ -1,0 +1,13 @@
+name: 'Ontrack CLI Setup'
+description: 'Installs the Ontrack CLI'
+inputs:
+  version:
+    description: Version of the Ontrack CLI to setup (defaults to the latest)
+    required: false
+    default: ""
+outputs:
+  installed:
+    description: Version which was actually installed
+runs:
+  using: 'node12'
+  main: 'index.js'
