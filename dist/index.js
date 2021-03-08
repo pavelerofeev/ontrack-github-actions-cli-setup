@@ -198,7 +198,7 @@ try {
 
     // Downloading
     const cliPath = tc.downloadTool(url);
-    console.log('Downloaded at ${cliPath}')
+    console.log(`Downloaded at ${cliPath}`)
 } catch (error) {
     core.setFailed(error.message);
 }
