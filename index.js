@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const os = require('os');
 
 try {
     // Gets the version, if available
@@ -10,6 +11,12 @@ try {
         version = '0.0.9';
     }
     console.log(`Using version: ${version}`);
+
+    // Information about the OS
+    const osPlatform = os.platform();
+    const osArch = os.arch();
+    console.log(`For OS platform: ${osPlatform}`);
+    console.log(`For OS arch: ${osArch}`);
 } catch (error) {
     core.setFailed(error.message);
 }
