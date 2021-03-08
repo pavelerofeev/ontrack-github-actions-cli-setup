@@ -20,3 +20,17 @@ Version which has actually been installed.
 ```yaml
 uses: nemerosa/ontrack-github-actions-cli-setup@v1
 ```
+
+## Building
+
+Download the dependencies by running:
+
+```bash
+npm install
+```
+
+To build the distribution:
+
+```bash
+ncc build
+```
