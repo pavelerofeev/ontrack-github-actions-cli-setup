@@ -17,6 +17,10 @@ try {
     const osArch = mapArch(os.arch());
     console.log(`For OS platform: ${osPlatform}`);
     console.log(`For OS arch: ${osArch}`);
+
+    // Getting the URL to the CLI
+    const url = `https://github.com/nemerosa/ontrack-cli/releases/download/${version}/ontrack-cli-${osPlatform}-${osArch}`;
+    console.log(`Downloading CLI from ${url}`);
 } catch (error) {
     core.setFailed(error.message);
 }
