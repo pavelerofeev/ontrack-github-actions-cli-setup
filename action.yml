@@ -10,4 +10,4 @@ outputs:
     description: Version which was actually installed
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'
