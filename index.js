@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const github = require('@actions/github');
+const tc = require('@actions/tool-cache');
 const os = require('os');
 
 try {
@@ -21,6 +21,10 @@ try {
     // Getting the URL to the CLI
     const url = `https://github.com/nemerosa/ontrack-cli/releases/download/${version}/ontrack-cli-${osPlatform}-${osArch}`;
     console.log(`Downloading CLI from ${url}`);
+
+    // Downloading
+    const cliPath = tc.downloadTool(url);
+    console.log('Downloaded at ${cliPath}')
 } catch (error) {
     core.setFailed(error.message);
 }
