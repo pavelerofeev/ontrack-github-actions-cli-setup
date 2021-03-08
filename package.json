@@ -22,7 +22,8 @@
   "homepage": "https://github.com/nemerosa/ontrack-github-actions-cli-setup#readme",
   "dependencies": {
     "@actions/core": "^1.2.6",
-    "@actions/tool-cache": "^1.1.1"
+    "@actions/tool-cache": "^1.1.1",
+    "@actions/io": "^1.0.1"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.25.1",
