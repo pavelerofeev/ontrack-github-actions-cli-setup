@@ -1,4 +1,5 @@
 const os = require('os');
+const fs = require('fs');
 const path = require('path');
 
 const core = require('@actions/core');
@@ -40,6 +41,11 @@ async function setup() {
 async function downloadAndSetup(url) {
     const cliPath = await tc.downloadTool(url);
     console.log(`Downloaded at ${cliPath}`)
+
+    // Make the download executable
+    if (!os.platform().startsWith('win')) {
+        await fs.chmodSync(cliPath, 'u+x')
+    }
 
     const dir = path.dirname(cliPath)
     console.log(`Directory is ${dir}`)
