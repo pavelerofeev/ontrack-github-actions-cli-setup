@@ -173,6 +173,7 @@ exports._readLinuxVersionFile = _readLinuxVersionFile;
 /***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
 
 const os = __webpack_require__(87);
+const fs = __webpack_require__(747);
 const path = __webpack_require__(622);
 
 const core = __webpack_require__(670);
@@ -214,6 +215,11 @@ async function setup() {
 async function downloadAndSetup(url) {
     const cliPath = await tc.downloadTool(url);
     console.log(`Downloaded at ${cliPath}`)
+
+    // Make the download executable
+    if (!os.platform().startsWith('win')) {
+        await fs.chmodSync(cliPath, 'u+x')
+    }
 
     const dir = path.dirname(cliPath)
     console.log(`Directory is ${dir}`)
