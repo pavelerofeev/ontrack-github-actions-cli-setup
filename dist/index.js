@@ -889,7 +889,7 @@ async function configureProject(config) {
         if (!indexation) indexation = 0
 
         await exec.exec('ontrack-cli', ['project', 'set-property', '--project', project, 'github', '--configuration', config, '--repository', `${context.repo.owner}/${context.repo.repo}`, '--indexation', indexation, '--issue-service', 'self'])
-        // TODO ontrack-cli branch set-property --project ontrack-pro --branch ${GITHUB_REF#refs/heads/} git --git-branch ${GITHUB_REF#refs/heads/}
+        await exec.exec('ontrack-cli', ['branch', 'set-property', '--project', project, 'github', '--branch', branch, 'git', '--git-branch', branch])
     }
 }
 
