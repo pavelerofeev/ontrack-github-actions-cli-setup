@@ -5,6 +5,8 @@ const path = require('path');
 const core = require('@actions/core');
 const tc = require('@actions/tool-cache');
 const io = require('@actions/io');
+const exec = require('@actions/exec');
+const github = require('@actions/github');
 
 (async () => {
     try {
@@ -32,11 +34,52 @@ async function setup() {
     console.log(`For OS arch: ${osArch}`);
 
     // Getting the URL to the CLI
-    const url = `https://github.com/nemerosa/ontrack-cli/releases/download/${version}/ontrack-cli-${osPlatform}-${osArch}`;
-    console.log(`Downloading CLI from ${url}`);
+    const downloadUrl = `https://github.com/nemerosa/ontrack-cli/releases/download/${version}/ontrack-cli-${osPlatform}-${osArch}`;
+    console.log(`Downloading CLI from ${downloadUrl}`);
 
     // Downloading
-    await downloadAndSetup(url)
+    await downloadAndSetup(downloadUrl)
+
+    // CLI config?
+    const url = core.getInput('url')
+    const token = core.getInput('token')
+    if (url && token) {
+        let name = core.getInput('name')
+        if (!name) name = 'prod'
+        await configureCLI(url, token, name)
+
+        // Name of the GitHub configuration in Ontrack
+        const config = core.getInput('config')
+        if (config) {
+            await configureProject(config)
+        }
+    }
+}
+
+async function configureCLI(url, token, name) {
+    console.log(`Connecting to ${url}...`)
+    await exec.exec('ontrack-cli', ['config', 'create', name, url, '--token', token])
+}
+
+async function configureProject(config) {
+    console.log(`Configuring branch for config ${config}...`)
+
+    // GitHub context
+    const context = github.context;
+
+    // GitHub repository (name) ==> Ontrack project
+    const repository = context.repo;
+    const project = repository.substring(repository.lastIndexOf('/') + 1);
+    console.log(`Ontrack project = ${project}`);
+
+    // GitHub branch
+    console.log(`GitHub ref = ${context.ref}`);
+
+    // Branch setup
+    // TODO await exec.exec('ontrack-cli', ['branch', 'setup', '--project', project, '--branch', branch])
+
+    // TODO ontrack-cli project set-property --project ontrack-pro github --configuration github.com --repository nemerosa/ontrack-pro --indexation 30 --issue-service self
+    // TODO ontrack-cli branch set-property --project ontrack-pro --branch ${GITHUB_REF#refs/heads/} git --git-branch ${GITHUB_REF#refs/heads/}
 }
 
 async function downloadAndSetup(url) {
@@ -54,7 +97,7 @@ async function downloadAndSetup(url) {
     // If we're on Windows, then the executable ends with .exe
     const exeSuffix = os.platform().startsWith('win') ? '.exe' : '';
 
-    await io.mv(cliPath,[dir, `ontrack-cli${exeSuffix}`].join(path.sep))
+    await io.mv(cliPath, [dir, `ontrack-cli${exeSuffix}`].join(path.sep))
 
     // Add to the path
     core.addPath(dir)
