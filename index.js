@@ -77,7 +77,7 @@ async function configureProject(config) {
     let branch = '';
     const branchPrefix = 'refs/heads/';
     if (context.ref.startsWith('refs/heads/')) {
-        branch = config.ref.substring(branchPrefix.length);
+        branch = context.ref.substring(branchPrefix.length);
     }
 
     // Branch setup

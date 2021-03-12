@@ -866,6 +866,7 @@ async function configureProject(config) {
 
     // GitHub context
     const context = github.context;
+    console.log(`GitHub context = ${context}`);
 
     // GitHub repository (name) ==> Ontrack project
     const project = context.repo.repo;
@@ -876,7 +877,7 @@ async function configureProject(config) {
     let branch = '';
     const branchPrefix = 'refs/heads/';
     if (context.ref.startsWith('refs/heads/')) {
-        branch = config.ref.substring(branchPrefix.length);
+        branch = context.ref.substring(branchPrefix.length);
     }
 
     // Branch setup
