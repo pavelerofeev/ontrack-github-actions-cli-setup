@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Ontrack setup
+        uses: nemerosa/ontrack-github-actions-cli-setup@main
+        with:
+          version: 0.0.11
+          url: https://ontrack.nemerosa.net
+          token: ${{ secrets.ONTRACK_TOKEN }}
+          config: github.com
