@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Ontrack setup
-        uses: .
+        uses: /.
         with:
           version: 0.0.11
           url: https://ontrack.nemerosa.net
