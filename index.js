@@ -66,6 +66,7 @@ async function configureProject(config) {
 
     // GitHub context
     const context = github.context;
+    console.log(`GitHub context = ${context}`);
 
     // GitHub repository (name) ==> Ontrack project
     const project = context.repo.repo;
