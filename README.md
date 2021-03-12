@@ -18,7 +18,15 @@ Version which has actually been installed.
 ## Example usage
 
 ```yaml
-uses: nemerosa/ontrack-github-actions-cli-setup@v1
+- name: Setup the CLI
+  uses: nemerosa/ontrack-github-actions-cli-setup@v1
+# You can then use `ontrack-cli` directly
+- name: Connect to Ontrack
+  runs: ontrack-cli config create prod <ontrack-url> --token <token>
+- name: Branch setup
+  runs: ontrack-cli branch setup --project <project> --branch <branch>
+- name: Build creation
+  runs: ontrack-cli build setup  --project <project> --branch <branch> --build <build>
 ```
 
 ## Building
