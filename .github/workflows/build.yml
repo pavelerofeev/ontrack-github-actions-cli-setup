@@ -22,9 +22,15 @@ jobs:
 
       - name: Ontrack setup
         uses: ./
+        id: ontrack
         with:
           version: 0.0.11
           url: https://ontrack.nemerosa.net
           token: ${{ secrets.ONTRACK_TOKEN }}
           config: github.com
           indexation: 120
+
+      - name: Ontrack build
+        run: |
+          ontrack-cli build setup --project ${{ steps.ontrack.outputs.project }} --branch ${{ steps.ontrack.outputs.branch }} --build ${{ github.run_number }}
+          ontrack-cli build set-property --project ${{ steps.ontrack.outputs.project }} --branch ${{ steps.ontrack.outputs.branch }} --build ${{ github.run_number }} git-commit --commit ${{ github.sha }}

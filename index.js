@@ -85,6 +85,9 @@ async function configureProject(config) {
         console.log(`Ontrack branch = ${branch}`);
         await exec.exec('ontrack-cli', ['branch', 'setup', '--project', project, '--branch', branch])
 
+        core.setOutput('project', project);
+        core.setOutput('branch', branch);
+
         let indexation = core.getInput('indexation');
         if (!indexation) indexation = 0
 

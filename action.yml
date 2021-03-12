@@ -27,6 +27,10 @@ inputs:
 outputs:
   installed:
     description: Version which was actually installed
+  project:
+    description: Ontrack project name
+  branch:
+    description: Ontrack branch name
 runs:
   using: 'node12'
   main: 'dist/index.js'
