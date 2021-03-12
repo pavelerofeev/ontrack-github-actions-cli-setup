@@ -73,12 +73,20 @@ async function configureProject(config) {
 
     // GitHub branch
     console.log(`GitHub ref = ${context.ref}`);
+    let branch = '';
+    const branchPrefix = 'refs/heads/';
+    if (context.ref.startsWith('refs/heads/')) {
+        branch = config.ref.substring(branchPrefix.length);
+    }
 
     // Branch setup
-    // TODO await exec.exec('ontrack-cli', ['branch', 'setup', '--project', project, '--branch', branch])
+    if (branch) {
+        console.log(`Ontrack branch = ${branch}`);
+        await exec.exec('ontrack-cli', ['branch', 'setup', '--project', project, '--branch', branch])
 
-    // TODO ontrack-cli project set-property --project ontrack-pro github --configuration github.com --repository nemerosa/ontrack-pro --indexation 30 --issue-service self
-    // TODO ontrack-cli branch set-property --project ontrack-pro --branch ${GITHUB_REF#refs/heads/} git --git-branch ${GITHUB_REF#refs/heads/}
+        // TODO ontrack-cli project set-property --project ontrack-pro github --configuration github.com --repository nemerosa/ontrack-pro --indexation 30 --issue-service self
+        // TODO ontrack-cli branch set-property --project ontrack-pro --branch ${GITHUB_REF#refs/heads/} git --git-branch ${GITHUB_REF#refs/heads/}
+    }
 }
 
 async function downloadAndSetup(url) {
