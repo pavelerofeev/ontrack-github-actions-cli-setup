@@ -20,6 +20,10 @@ inputs:
   config:
     description: Name of the GitHub configuration to use
     required: false
+  indexation:
+    description: Indexation interval of the GitHub repository in GitHub (in minutes)
+    required: false
+    default: "0"
 outputs:
   installed:
     description: Version which was actually installed
