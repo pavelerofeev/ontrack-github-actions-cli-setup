@@ -23,6 +23,7 @@ async function setup() {
         version = '0.0.9';
     }
     console.log(`Using version: ${version}`);
+    core.setOutput('installed', version);
 
     // Information about the OS
     const osPlatform = mapOS(os.platform());
