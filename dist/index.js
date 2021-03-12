@@ -868,8 +868,7 @@ async function configureProject(config) {
     const context = github.context;
 
     // GitHub repository (name) ==> Ontrack project
-    const repository = context.repo;
-    const project = repository.substring(repository.indexOf('/') + 1);
+    const project = context.repo.repo;
     console.log(`Ontrack project = ${project}`);
 
     // GitHub branch
