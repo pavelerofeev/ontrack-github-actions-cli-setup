@@ -88,7 +88,7 @@ async function configureProject(config) {
         let indexation = core.getInput('indexation');
         if (!indexation) indexation = 0
 
-        await exec.exec('ontrack-cli', ['project', 'set-property', '--project', project, 'github' '--configuration', config, '--repository', `${context.repo.owner}/${context.repo.repo}`, '--indexation', indexation, '--issue-service', 'self'])
+        await exec.exec('ontrack-cli', ['project', 'set-property', '--project', project, 'github', '--configuration', config, '--repository', `${context.repo.owner}/${context.repo.repo}`, '--indexation', indexation, '--issue-service', 'self'])
         // TODO ontrack-cli branch set-property --project ontrack-pro --branch ${GITHUB_REF#refs/heads/} git --git-branch ${GITHUB_REF#refs/heads/}
     }
 }

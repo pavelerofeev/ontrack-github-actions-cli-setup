@@ -885,7 +885,10 @@ async function configureProject(config) {
         console.log(`Ontrack branch = ${branch}`);
         await exec.exec('ontrack-cli', ['branch', 'setup', '--project', project, '--branch', branch])
 
-        // TODO ontrack-cli project set-property --project ontrack-pro github --configuration github.com --repository nemerosa/ontrack-pro --indexation 30 --issue-service self
+        let indexation = core.getInput('indexation');
+        if (!indexation) indexation = 0
+
+        await exec.exec('ontrack-cli', ['project', 'set-property', '--project', project, 'github', '--configuration', config, '--repository', `${context.repo.owner}/${context.repo.repo}`, '--indexation', indexation, '--issue-service', 'self'])
         // TODO ontrack-cli branch set-property --project ontrack-pro --branch ${GITHUB_REF#refs/heads/} git --git-branch ${GITHUB_REF#refs/heads/}
     }
 }
