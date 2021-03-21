@@ -819,10 +819,18 @@ const github = __webpack_require__(77);
 async function setup() {
     // Gets the version, if available
     let version = core.getInput('version');
-    // TODO If the version is not provided, computes the latest
     if (!version) {
         console.log("No version provided. Getting the latest version from GitHub.")
-        version = '0.0.9';
+        const githubToken = core.getInput("github-token")
+        if (!githubToken) {
+            throw "GitHub token must be provided in order to get the latest version of the CLI."
+        }
+        const octokit = github.getOctokit(githubToken)
+        const release = await octokit.repos.getLatestRelease({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo
+        })
+        version = release.data.name
     }
     console.log(`Using version: ${version}`);
     core.setOutput('installed', version);

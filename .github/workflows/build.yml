@@ -24,7 +24,7 @@ jobs:
         uses: ./
         id: ontrack
         with:
-          version: 0.0.11
+          github-token: ${{ github.token }}
           url: https://ontrack.nemerosa.net
           token: ${{ secrets.ONTRACK_TOKEN }}
           config: github.com

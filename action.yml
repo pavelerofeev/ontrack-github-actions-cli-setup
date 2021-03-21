@@ -24,6 +24,9 @@ inputs:
     description: Indexation interval of the GitHub repository in GitHub (in minutes)
     required: false
     default: "0"
+  github-token:
+    description: GitHub token to use to get the latest version of the CLI (when version is not provided)
+    required: false
 outputs:
   installed:
     description: Version which was actually installed
