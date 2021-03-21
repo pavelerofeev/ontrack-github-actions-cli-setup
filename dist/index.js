@@ -827,8 +827,8 @@ async function setup() {
         }
         const octokit = github.getOctokit(githubToken)
         const release = await octokit.repos.getLatestRelease({
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo
+            owner: "nemerosa",
+            repo: "ontrack-cli"
         })
         version = release.data.name
     }
