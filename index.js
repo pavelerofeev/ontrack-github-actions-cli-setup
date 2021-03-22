@@ -149,7 +149,7 @@ async function configureAutoPromotion(project, branch) {
         }
         // Creates all the validations
         await validations.forEach(validation => {
-            exec.exec('ontrack-cli', ['validation', 'setup', '--project', project, '--branch', branch, '--validation', validation])
+            exec.exec('ontrack-cli', ['validation', 'setup', 'generic', '--project', project, '--branch', branch, '--validation', validation])
         })
         // Creates all the promotions
         await promotions.forEach(promotion => {
