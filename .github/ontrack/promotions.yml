@@ -1,0 +1,8 @@
+BRONZE:
+  validations:
+    - BUILD
+SILVER:
+  validations:
+    - ACCEPTANCE
+  promotions:
+    - BRONZE

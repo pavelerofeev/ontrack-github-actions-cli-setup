@@ -41,6 +41,35 @@ inputs:
     description: |
       Sets the Ontrack project to create promotion levels on demand.
     required: false
+  promotions:
+    description: |
+      Path to a local YAML file describing the promotions and their auto promotions.
+
+      For example:
+
+          promotions: ./.github/ontrack/promotions.yml
+
+      The file is expected to have the following structure:
+
+          PROMOTION:
+              validations:
+                  - STAMP
+              promotions:
+                  - PROMOTION
+
+      For example:
+
+          BRONZE:
+            validations:
+              - BUILD
+          SILVER:
+            validations:
+              - ACCEPTANCE
+            promotions:
+              - BRONZE
+
+      All validations and promotions are created if needed.
+    required: false
 outputs:
   installed:
     description: Version which was actually installed
