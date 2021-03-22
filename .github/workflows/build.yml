@@ -31,7 +31,7 @@ jobs:
           indexation: 120
           auto-validation-stamps: force
           auto-promotion-levels: true
-          promotions: ./github/ontrack/promotions.yml
+          promotions: ./.github/ontrack/promotions.yml
 
       - name: Ontrack build
         run: |
