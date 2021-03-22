@@ -29,6 +29,8 @@ jobs:
           token: ${{ secrets.ONTRACK_TOKEN }}
           config: github.com
           indexation: 120
+          auto-validation-stamps: force
+          auto-promotion-levels: true
 
       - name: Ontrack build
         run: |

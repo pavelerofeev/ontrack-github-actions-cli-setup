@@ -27,6 +27,20 @@ inputs:
   github-token:
     description: GitHub token to use to get the latest version of the CLI (when version is not provided)
     required: false
+  auto-validation-stamps:
+    description: |
+      Sets the Ontrack project to create validation stamps on demand.
+
+      Value can be:
+
+      * true or "true" - auto creation based on predefined validation stamps
+      * "force" - auto creation even if no predefined validation stamps
+      * otherwise, no auto creation
+    required: false
+  auto-promotion-levels:
+    description: |
+      Sets the Ontrack project to create promotion levels on demand.
+    required: false
 outputs:
   installed:
     description: Version which was actually installed

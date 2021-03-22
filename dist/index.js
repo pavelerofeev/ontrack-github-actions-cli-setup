@@ -890,8 +890,27 @@ async function configureProject(config) {
 
     // Branch setup
     if (branch) {
+
         console.log(`Ontrack branch = ${branch}`);
-        await exec.exec('ontrack-cli', ['branch', 'setup', '--project', project, '--branch', branch])
+        let setupArgs = ['branch', 'setup', '--project', project, '--branch', branch]
+
+        let autoVS = core.getInput("auto-validation-stamps")
+        if (autoVS === true || autoVS === 'true') {
+            setupArgs.push("--auto-create-vs")
+        } else if (autoVS === 'force') {
+            setupArgs.push("--auto-create-vs", "--auto-create-vs-always")
+        } else if (autoVS === false || autoVS === 'false') {
+            setupArgs.push("--auto-create-vs=false")
+        }
+
+        let autoPL = core.getInput("auto-promotion-levels")
+        if (autoPL === true || autoPL === 'true') {
+            setupArgs.push("--auto-create-pl")
+        } else if (autoPL === false || autoPL === 'false') {
+            setupArgs.push("--auto-create-pl=false")
+        }
+
+        await exec.exec('ontrack-cli', setupArgs)
 
         core.setOutput('project', project);
         core.setOutput('branch', branch);
