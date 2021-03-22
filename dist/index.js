@@ -1216,7 +1216,7 @@ async function configureAutoPromotion(project, branch) {
                 }
                 if (promotionConfig.promotions) {
                     promotionConfig.promotions.forEach(promotion => {
-                        setupArgs.push('--promotion', promotion)
+                        setupArgs.push('--depends-on', promotion)
                     })
                 }
                 await exec.exec('ontrack-cli', setupArgs)
