@@ -8,6 +8,8 @@ const io = require('@actions/io');
 const exec = require('@actions/exec');
 const github = require('@actions/github');
 
+const readYaml = require('read-yaml-promise');
+
 (async () => {
     try {
         await setup();
@@ -120,6 +122,57 @@ async function configureProject(config) {
 
         await exec.exec('ontrack-cli', ['project', 'set-property', '--project', project, 'github', '--configuration', config, '--repository', `${context.repo.owner}/${context.repo.repo}`, '--indexation', indexation, '--issue-service', 'self'])
         await exec.exec('ontrack-cli', ['branch', 'set-property', '--project', project, '--branch', branch, 'git', '--git-branch', branch])
+
+        await configureAutoPromotion(project, branch)
+    }
+}
+
+async function configureAutoPromotion(project, branch) {
+    const promotionsPath = core.getInput("promotions")
+    if (promotionsPath) {
+        // Reads the file as YAML
+        const yaml = await readYaml(promotionsPath)
+        // List of validations and promotions to setup
+        const validations = []
+        const promotions = []
+        // Collects all the validation to setup
+        for (const promotion in yaml) {
+            if (yaml.hasOwnProperty(promotion)) {
+                promotions.push(promotion)
+                const promotionConfig = yaml[promotion]
+                if (promotionConfig.validations) {
+                    promotionConfig.validations.forEach(validation => {
+                        validations.push(validation)
+                    })
+                }
+            }
+        }
+        // Creates all the validations
+        await validations.forEach(validation => {
+            exec.exec('ontrack-cli', ['validation', 'setup', '--project', project, '--branch', branch, '--validation', validation])
+        })
+        // Creates all the promotions
+        await promotions.forEach(promotion => {
+            exec.exec('ontrack-cli', ['promotion', 'setup', '--project', project, '--branch', branch, '--promotion', promotion])
+        })
+        // Auto promotion setup
+        for (const promotion in yaml) {
+            if (yaml.hasOwnProperty(promotion)) {
+                const promotionConfig = yaml[promotion]
+                const setupArgs = ['promotion', 'setup', '--project', project, '--branch', branch, '--promotion', promotion]
+                if (promotionConfig.validations) {
+                    promotionConfig.validations.forEach(validation => {
+                        setupArgs.push('--validation', validation)
+                    })
+                }
+                if (promotionConfig.promotions) {
+                    promotionConfig.promotions.forEach(promotion => {
+                        setupArgs.push('--promotion', promotion)
+                    })
+                }
+                await exec.exec('ontrack-cli', setupArgs)
+            }
+        }
     }
 }
 
