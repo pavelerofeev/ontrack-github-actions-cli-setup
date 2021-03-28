@@ -19,6 +19,15 @@ const readYaml = require('read-yaml-promise');
 })();
 
 async function setup() {
+
+    // Checks the owner
+    const onlyFor = core.getInput('only-for')
+    const cliDisabled = (onlyFor !== github.context.repo.owner)
+    if (cliDisabled) {
+        console.log(`Ontrack setup not eligible for the ${github.context.repo.owner} repository owner.`)
+        console.log("The Ontrack CLI is still downloaded, but will be disabled.")
+    }
+
     // Gets the version, if available
     let version = core.getInput('version');
     if (!version) {
@@ -56,7 +65,7 @@ async function setup() {
     if (url && token) {
         let name = core.getInput('name')
         if (!name) name = 'prod'
-        await configureCLI(url, token, name)
+        await configureCLI(url, token, name, cliDisabled)
 
         // Name of the GitHub configuration in Ontrack
         const config = core.getInput('config')
@@ -66,9 +75,13 @@ async function setup() {
     }
 }
 
-async function configureCLI(url, token, name) {
+async function configureCLI(url, token, name, cliDisabled) {
     console.log(`Connecting to ${url}...`)
     await exec.exec('ontrack-cli', ['config', 'create', name, url, '--token', token])
+    // Disabling the CLI
+    if (cliDisabled) {
+        await exec.exec('ontrack-cli', ['config', 'disable', name])
+    }
 }
 
 async function configureProject(config) {

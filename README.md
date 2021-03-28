@@ -8,6 +8,12 @@ GitHub action to setup the [Ontrack CLI](https://github.com/nemerosa/ontrack-cli
 
 Version of the [Ontrack CLI](https://github.com/nemerosa/ontrack-cli/releases) to install. If not specified, defaults to the latest available.
 
+### `only-for`
+
+Repository owner for which to activate the Ontrack setup.
+
+This is useful when the Ontrack setup can only be done for a given organisation or user.
+
 ### `url`
 
 URL of the Ontrack instance to target. If this input is set and the `token` one as well, this action will setup the CLI based on this information.
@@ -86,6 +92,7 @@ Setting the CLI automatically:
   uses: nemerosa/ontrack-github-actions-cli-setup@v1
   with:
     github-token: ${{ github.token }}
+    only-for: nemerosa
     url: <ontrack-url>
     token: ${{ secrets.ONTRACK_TOKEN }}
     config: github.com

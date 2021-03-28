@@ -5,6 +5,12 @@ inputs:
     description: Version of the Ontrack CLI to setup (defaults to the latest)
     required: false
     default: ""
+  only-for:
+    description: |
+      Repository owner for which to activate the Ontrack setup.
+
+      This is useful when the Ontrack setup can only be done for a given organisation or user.
+    required: false
   url:
     description: URL of the Ontrack instance to target
     required: false
