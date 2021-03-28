@@ -8,16 +8,16 @@ PATCH_NAME=v${MAJOR}.${MINOR}.${PATCH}
 MINOR_NAME=v${MAJOR}.${MINOR}
 MAJOR_NAME=v${MAJOR}
 
-git push origin :"${MINOR}_NAME"
-git push origin :"${MAJOR}_NAME"
+git push origin :"${MINOR_NAME}"
+git push origin :"${MAJOR_NAME}"
 
-git tag -d "${MINOR}_NAME"
-git tag -d "${PATCH}_NAME"
+git tag -d "${MINOR_NAME}"
+git tag -d "${PATCH_NAME}"
 
-git tag "${MAJOR}_NAME"
-git tag "${MINOR}_NAME"
-git tag "${PATCH}_NAME"
+git tag "${MAJOR_NAME}"
+git tag "${MINOR_NAME}"
+git tag "${PATCH_NAME}"
 
-git push origin "${MAJOR}_NAME"
-git push origin "${MINOR}_NAME"
-git push origin "${PATCH}_NAME"
+git push origin "${MAJOR_NAME}"
+git push origin "${MINOR_NAME}"
+git push origin "${PATCH_NAME}"
