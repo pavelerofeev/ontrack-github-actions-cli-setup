@@ -32,11 +32,36 @@ Indexation interval of the GitHub repository in GitHub (in minutes). Defaults to
 
 GitHub token to get the latest version of the CLI (when `version` is not provided).
 
+### `promotions`
+
+Optional path to a YAML file describing the auto promotions for this project.
+
+The target file format looks like:
+
+```yaml
+BRONZE:
+  validations:
+    - BUILD
+SILVER:
+  validations:
+    - ACCEPTANCE
+  promotions:
+    - BRONZE
+```
+
 ## Outputs
 
 ### `installed`
 
 Version which has actually been installed.
+
+### `project`
+
+Name of the Ontrack project
+
+### `branch`
+
+Name of the Ontrack branch
 
 ## Example usage
 
