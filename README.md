@@ -32,6 +32,20 @@ Indexation interval of the GitHub repository in GitHub (in minutes). Defaults to
 
 GitHub token to get the latest version of the CLI (when `version` is not provided).
 
+### `auto-validation-stamps`
+
+Sets the Ontrack project to create validation stamps on demand.
+
+Value can be:
+
+* `true` or `"true"` - auto creation based on predefined validation stamps
+* `"force"` - auto creation even if no predefined validation stamps
+* otherwise, no auto creation
+
+### `auto-promotion-levels`
+
+Sets the Ontrack project to create promotion levels on demand.
+
 ### `promotions`
 
 Optional path to a YAML file describing the auto promotions for this project.
