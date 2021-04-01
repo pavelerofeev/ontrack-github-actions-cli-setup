@@ -59,6 +59,24 @@ async function setup() {
     // Downloading
     await downloadAndSetup(downloadUrl)
 
+    // GitHub repository (name) ==> Ontrack project
+    const project = github.context.repo.repo;
+    core.setOutput('project', project);
+    console.log(`Ontrack project = ${project}`);
+
+    // GitHub branch
+    console.log(`GitHub ref = ${github.context.ref}`);
+    let branch = '';
+    const branchPrefix = 'refs/heads/';
+    const tagPrefix = 'refs/tags/';
+    if (github.context.ref.startsWith(branchPrefix)) {
+        branch = github.context.ref.substring(branchPrefix.length);
+    } else if (github.context.ref.startsWith(tagPrefix)) {
+        branch = github.context.ref.substring(tagPrefix.length);
+    }
+    core.setOutput('branch', branch);
+    console.log(`Ontrack branch = ${branch}`);
+
     // CLI config?
     const url = core.getInput('url')
     const token = core.getInput('token')
@@ -70,7 +88,7 @@ async function setup() {
         // Name of the GitHub configuration in Ontrack
         const config = core.getInput('config')
         if (config) {
-            await configureProject(config)
+            await configureProject(config, project, branch)
         }
     }
 }
@@ -84,29 +102,16 @@ async function configureCLI(url, token, name, cliDisabled) {
     }
 }
 
-async function configureProject(config) {
+async function configureProject(config, project, branch) {
     console.log(`Configuring branch for config ${config}...`)
 
     // GitHub context
     const context = github.context;
     console.log(`GitHub context = ${context}`);
 
-    // GitHub repository (name) ==> Ontrack project
-    const project = context.repo.repo;
-    console.log(`Ontrack project = ${project}`);
-
-    // GitHub branch
-    console.log(`GitHub ref = ${context.ref}`);
-    let branch = '';
-    const branchPrefix = 'refs/heads/';
-    if (context.ref.startsWith('refs/heads/')) {
-        branch = context.ref.substring(branchPrefix.length);
-    }
-
     // Branch setup
     if (branch) {
 
-        console.log(`Ontrack branch = ${branch}`);
         let setupArgs = ['branch', 'setup', '--project', project, '--branch', branch]
 
         let autoVS = core.getInput("auto-validation-stamps")
@@ -126,9 +131,6 @@ async function configureProject(config) {
         }
 
         await exec.exec('ontrack-cli', setupArgs)
-
-        core.setOutput('project', project);
-        core.setOutput('branch', branch);
 
         let indexation = core.getInput('indexation');
         if (!indexation) indexation = 0
