@@ -19,29 +19,5 @@ jobs:
     steps:
 
       - uses: actions/checkout@v2
-
-      - name: Ontrack setup
-        uses: ./
-        id: ontrack
-        with:
-          github-token: ${{ github.token }}
-          url: https://ontrack.nemerosa.net
-          token: ${{ secrets.ONTRACK_TOKEN }}
-          config: github.com
-          indexation: 120
-          auto-validation-stamps: force
-          auto-promotion-levels: true
-          promotions: ./.github/ontrack/promotions.yml
-
-      - name: Ontrack build
-        run: |
-          ontrack-cli build setup --project ${{ steps.ontrack.outputs.project }} --branch ${{ steps.ontrack.outputs.branch }} --build ${{ github.run_number }}
-          ontrack-cli build set-property --project ${{ steps.ontrack.outputs.project }} --branch ${{ steps.ontrack.outputs.branch }} --build ${{ github.run_number }} git-commit --commit ${{ github.sha }}
-
-      - name: Ontrack build validation
-        uses: nemerosa/ontrack-github-actions-cli-validation@main
-        with:
-          step-name: Ontrack build
-          validation: BUILD
-          build: ${{ github.run_number }}
-          token: ${{ github.token }}
+      
+      
