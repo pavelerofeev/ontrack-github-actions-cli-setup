@@ -152,7 +152,7 @@ async function configureAutoPromotion(project, branch) {
         const promotions = []
         // Collects all the validation to setup
         for (const promotion in yaml) {
-            if (yaml.hasOwnProperty(promotion)) {
+            if (Object.prototype.hasOwnProperty.call(yaml, promotion)) {
                 promotions.push(promotion)
                 const promotionConfig = yaml[promotion]
                 if (promotionConfig.validations) {
@@ -172,7 +172,7 @@ async function configureAutoPromotion(project, branch) {
         })
         // Auto promotion setup
         for (const promotion in yaml) {
-            if (yaml.hasOwnProperty(promotion)) {
+            if (Object.prototype.hasOwnProperty.call(yaml, promotion)) {
                 const promotionConfig = yaml[promotion]
                 const setupArgs = ['promotion', 'setup', '--project', project, '--branch', branch, '--promotion', promotion]
                 if (promotionConfig.validations) {
