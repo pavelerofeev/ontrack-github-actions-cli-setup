@@ -69,10 +69,17 @@ async function setup() {
     let branch = '';
     const branchPrefix = 'refs/heads/';
     const tagPrefix = 'refs/tags/';
+    const prPrefix = 'refs/pull/'
+    const prSuffix = '/merge'
     if (github.context.ref.startsWith(branchPrefix)) {
         branch = github.context.ref.substring(branchPrefix.length);
     } else if (github.context.ref.startsWith(tagPrefix)) {
         branch = github.context.ref.substring(tagPrefix.length);
+    } else if (github.context.ref.startsWith(prPrefix) && github.context.ref.endsWith(prSuffix)) {
+        const prNumber = github.context.ref.substring(prPrefix.length, github.context.ref.length - prSuffix.length)
+        branch = `PR-${prNumber}`
+    } else {
+        throw `Unsupported ref format: ${github.context.ref}`;
     }
     core.setOutput('branch', branch);
     console.log(`Ontrack branch = ${branch}`);
