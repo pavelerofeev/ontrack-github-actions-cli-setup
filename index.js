@@ -87,6 +87,8 @@ async function setup() {
     // CLI config?
     const url = core.getInput('url')
     const token = core.getInput('token')
+    console.log(`Ontrack URL set to ${url}`)
+    console.log(`Ontrack token set to ${token ? token.length : 0} characters`)
     if (url && token) {
         let name = core.getInput('name')
         if (!name) name = 'prod'
@@ -101,7 +103,6 @@ async function setup() {
 }
 
 async function configureCLI(url, token, name, cliDisabled) {
-    console.log(`Connecting to ${url}...`)
     await exec.exec('ontrack-cli', ['config', 'create', name, url, '--token', token])
     // Disabling the CLI
     if (cliDisabled) {
