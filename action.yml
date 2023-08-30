@@ -11,6 +11,7 @@ inputs:
 
       This is useful when the Ontrack setup can only be done for a given organisation or user.
     required: false
+    default: ""
   url:
     description: URL of the Ontrack instance to target
     required: false

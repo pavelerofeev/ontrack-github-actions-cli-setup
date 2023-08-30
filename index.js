@@ -22,7 +22,7 @@ async function setup() {
 
     // Checks the owner
     const onlyFor = core.getInput('only-for')
-    const cliDisabled = (onlyFor !== github.context.repo.owner)
+    const cliDisabled = (onlyFor && onlyFor !== github.context.repo.owner)
     if (cliDisabled) {
         console.log(`Ontrack setup not eligible for the ${github.context.repo.owner} repository owner.`)
         console.log("The Ontrack CLI is still downloaded, but will be disabled.")
