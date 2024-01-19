@@ -37,7 +37,7 @@ async function setup() {
             throw "GitHub token must be provided in order to get the latest version of the CLI."
         }
         const octokit = github.getOctokit(githubToken)
-        const release = await octokit.repos.getLatestRelease({
+        const release = await octokit.rest.repos.getLatestRelease({
             owner: "nemerosa",
             repo: "ontrack-cli"
         })

@@ -1,4 +1,4 @@
-/******/ (() => { // webpackBootstrap
+require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 7351:
@@ -19062,7 +19062,7 @@ async function setup() {
             throw "GitHub token must be provided in order to get the latest version of the CLI."
         }
         const octokit = github.getOctokit(githubToken)
-        const release = await octokit.repos.getLatestRelease({
+        const release = await octokit.rest.repos.getLatestRelease({
             owner: "nemerosa",
             repo: "ontrack-cli"
         })
@@ -19112,6 +19112,8 @@ async function setup() {
     // CLI config?
     const url = core.getInput('url')
     const token = core.getInput('token')
+    console.log(`Ontrack URL set to ${url}`)
+    console.log(`Ontrack token set to ${token ? token.length : 0} characters`)
     if (url && token) {
         let name = core.getInput('name')
         if (!name) name = 'prod'
@@ -19126,7 +19128,6 @@ async function setup() {
 }
 
 async function configureCLI(url, token, name, cliDisabled) {
-    console.log(`Connecting to ${url}...`)
     await exec.exec('ontrack-cli', ['config', 'create', name, url, '--token', token])
     // Disabling the CLI
     if (cliDisabled) {
@@ -19268,3 +19269,4 @@ function mapOS(os) {
 module.exports = __webpack_exports__;
 /******/ })()
 ;
+//# sourceMappingURL=index.js.map
