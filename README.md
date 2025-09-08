@@ -123,6 +123,7 @@ See the [`ontrack-cli` documentation](https://github.com/nemerosa/ontrack-cli) f
 
 Other GitHub actions can be used after the `ontrack-github-actions-cli-setup` in order to leverage the Ontrack CLI:
 
+* [`ontrack-github-actions-cli-build`](https://github.com/nemerosa/ontrack-github-actions-cli-build/) - complete setup of a build based on the GH workflow information
 * [`ontrack-github-actions-cli-validation`](https://github.com/nemerosa/ontrack-github-actions-cli-validation/) - creates validations for builds, using information available in the GitHub workflow
 
 ## Building
