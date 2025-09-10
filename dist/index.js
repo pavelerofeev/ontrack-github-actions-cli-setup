@@ -1,4 +1,4 @@
-require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 7351:
@@ -19168,7 +19168,10 @@ async function configureProject(config, project, branch) {
         let indexation = core.getInput('indexation');
         if (!indexation) indexation = 0
 
-        await exec.exec('ontrack-cli', ['project', 'set-property', '--project', project, 'github', '--configuration', config, '--repository', `${context.repo.owner}/${context.repo.repo}`, '--indexation', indexation, '--issue-service', 'self'])
+        let issueService = core.getInput('issue-service')
+        if (!issueService) issueService = 'self'
+
+        await exec.exec('ontrack-cli', ['project', 'set-property', '--project', project, 'github', '--configuration', config, '--repository', `${context.repo.owner}/${context.repo.repo}`, '--indexation', indexation, '--issue-service', issueService])
         await exec.exec('ontrack-cli', ['branch', 'set-property', '--project', project, '--branch', branch, 'git', '--git-branch', branch])
 
         await configureAutoPromotion(project, branch)
@@ -19269,4 +19272,3 @@ function mapOS(os) {
 module.exports = __webpack_exports__;
 /******/ })()
 ;
-//# sourceMappingURL=index.js.map

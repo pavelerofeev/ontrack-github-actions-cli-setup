@@ -77,6 +77,16 @@ inputs:
 
       All validations and promotions are created if needed.
     required: false
+  issue-service:
+    description: |
+      Identifier of the issue to be used.
+      
+      For example:
+      
+      * self - the GitHub issues
+      * jira//JiraConfig - to use a Jira server identified by the "JiraConfig" Jira configuration in Yontrack
+    required: false
+    default: "self"
 outputs:
   installed:
     description: Version which was actually installed
