@@ -19088,21 +19088,22 @@ async function setup() {
     console.log(`Ontrack project = ${project}`);
 
     // GitHub branch
-    console.log(`GitHub ref = ${github.context.ref}`);
+    const ref = core.getInput('github-ref')
+    console.log(`GitHub ref = ${ref}`);
     let branch = '';
     const branchPrefix = 'refs/heads/';
     const tagPrefix = 'refs/tags/';
     const prPrefix = 'refs/pull/'
     const prSuffix = '/merge'
-    if (github.context.ref.startsWith(branchPrefix)) {
-        branch = github.context.ref.substring(branchPrefix.length);
-    } else if (github.context.ref.startsWith(tagPrefix)) {
-        branch = github.context.ref.substring(tagPrefix.length);
-    } else if (github.context.ref.startsWith(prPrefix) && github.context.ref.endsWith(prSuffix)) {
-        const prNumber = github.context.ref.substring(prPrefix.length, github.context.ref.length - prSuffix.length)
+    if (ref.startsWith(branchPrefix)) {
+        branch = ref.substring(branchPrefix.length);
+    } else if (ref.startsWith(tagPrefix)) {
+        branch = ref.substring(tagPrefix.length);
+    } else if (ref.startsWith(prPrefix) && ref.endsWith(prSuffix)) {
+        const prNumber = ref.substring(prPrefix.length, ref.length - prSuffix.length)
         branch = `PR-${prNumber}`
     } else {
-        throw `Unsupported ref format: ${github.context.ref}`;
+        throw `Unsupported ref format: ${ref}`;
     }
     core.setOutput('branch', branch);
     console.log(`Ontrack branch = ${branch}`);
