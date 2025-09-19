@@ -65,21 +65,26 @@ async function setup() {
     console.log(`Ontrack project = ${project}`);
 
     // GitHub branch
-    console.log(`GitHub ref = ${github.context.ref}`);
     let branch = '';
-    const branchPrefix = 'refs/heads/';
-    const tagPrefix = 'refs/tags/';
-    const prPrefix = 'refs/pull/'
-    const prSuffix = '/merge'
-    if (github.context.ref.startsWith(branchPrefix)) {
-        branch = github.context.ref.substring(branchPrefix.length);
-    } else if (github.context.ref.startsWith(tagPrefix)) {
-        branch = github.context.ref.substring(tagPrefix.length);
-    } else if (github.context.ref.startsWith(prPrefix) && github.context.ref.endsWith(prSuffix)) {
-        const prNumber = github.context.ref.substring(prPrefix.length, github.context.ref.length - prSuffix.length)
-        branch = `PR-${prNumber}`
+    const branchOverride = core.getInput('branch')
+    if (branchOverride) {
+        branch = branchOverride
     } else {
-        throw `Unsupported ref format: ${github.context.ref}`;
+        console.log(`GitHub ref = ${github.context.ref}`);
+        const branchPrefix = 'refs/heads/';
+        const tagPrefix = 'refs/tags/';
+        const prPrefix = 'refs/pull/'
+        const prSuffix = '/merge'
+        if (github.context.ref.startsWith(branchPrefix)) {
+            branch = github.context.ref.substring(branchPrefix.length);
+        } else if (github.context.ref.startsWith(tagPrefix)) {
+            branch = github.context.ref.substring(tagPrefix.length);
+        } else if (github.context.ref.startsWith(prPrefix) && github.context.ref.endsWith(prSuffix)) {
+            const prNumber = github.context.ref.substring(prPrefix.length, github.context.ref.length - prSuffix.length)
+            branch = `PR-${prNumber}`
+        } else {
+            throw `Unsupported ref format: ${github.context.ref}`;
+        }
     }
     core.setOutput('branch', branch);
     console.log(`Ontrack branch = ${branch}`);
@@ -87,12 +92,14 @@ async function setup() {
     // CLI config?
     const url = core.getInput('url')
     const token = core.getInput('token')
+    const connRetryCount = core.getInput('conn-retry-count')
+    const connRetryWait = core.getInput('conn-retry-wait')
     console.log(`Ontrack URL set to ${url}`)
     console.log(`Ontrack token set to ${token ? token.length : 0} characters`)
     if (url && token) {
         let name = core.getInput('name')
         if (!name) name = 'prod'
-        await configureCLI(url, token, name, cliDisabled)
+        await configureCLI(url, token, name, cliDisabled, connRetryCount, connRetryWait)
 
         // Name of the GitHub configuration in Ontrack
         const config = core.getInput('config')
@@ -102,8 +109,15 @@ async function setup() {
     }
 }
 
-async function configureCLI(url, token, name, cliDisabled) {
-    await exec.exec('ontrack-cli', ['config', 'create', name, url, '--token', token])
+async function configureCLI(url, token, name, cliDisabled, connRetryCount, connRetryWait) {
+    let args = ['config', 'create', name, url, '--token', token]
+    if (connRetryCount) {
+        args.push('--conn-retry-count', connRetryCount)
+    }
+    if (connRetryWait) {
+        args.push('--conn-retry-wait', connRetryWait)
+    }
+    await exec.exec('ontrack-cli', args)
     // Disabling the CLI
     if (cliDisabled) {
         await exec.exec('ontrack-cli', ['config', 'disable', name])

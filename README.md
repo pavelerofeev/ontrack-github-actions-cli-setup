@@ -69,6 +69,18 @@ SILVER:
     - BRONZE
 ```
 
+### `conn-retry-count`
+
+Optional value to override max connection retry attempts. If not set, default ontrack-cli behavior applies. 
+
+### `conn-retry-wait`
+
+Optional value to override max wait time between connection retry attempts. If not set, default ontrack-cli behavior applies. 
+
+### `branch`
+
+Branch name in Yontrack, defaults to the branch derived from the `github.ref`
+
 ## Outputs
 
 ### `installed`
